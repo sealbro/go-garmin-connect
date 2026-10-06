@@ -88,7 +88,6 @@ func authClientFor(api *http.Client) *http.Client {
 const (
 	maxAttempts          = 3
 	delayAfterFailedAuth = 300 * time.Millisecond
-	diBackend            = "connectapi.garmin.com"
 )
 
 // getOrRefreshToken returns a cached token unless force is true, in which
@@ -222,7 +221,7 @@ func (c *Context) makeHTTPRequest(ctx context.Context, method, urlPath string, h
 			req.Header.Set("cookie", cookies)
 		}
 		req.Header.Set("authorization", "Bearer "+tok.AccessToken)
-		req.Header.Set("di-backend", diBackend)
+		req.Header.Set("di-backend", "connectapi."+c.authParams.Domain())
 
 		resp, err := c.httpClient.Do(req)
 		if err != nil {

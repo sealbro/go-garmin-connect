@@ -352,8 +352,8 @@ func (s *Service) completeMfa(ctx context.Context, code string) (string, error) 
 
 func (s *Service) getOAuth1Token(ctx context.Context, ticket string, c ConsumerCredentials) (oauth1Token, error) {
 	requestURL := fmt.Sprintf(
-		"https://connectapi.%s/oauth-service/oauth/preauthorized?ticket=%s&login-url=https://sso.garmin.com/sso/embed&accepts-mfa-tokens=true",
-		s.params.Domain(), ticket,
+		"https://connectapi.%s/oauth-service/oauth/preauthorized?ticket=%s&login-url=%s&accepts-mfa-tokens=true",
+		s.params.Domain(), ticket, s.embedURL(),
 	)
 
 	header, err := oauth1.AuthorizationHeader(http.MethodGet, requestURL, oauth1.Credentials{
